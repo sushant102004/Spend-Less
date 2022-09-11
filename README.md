@@ -1,4 +1,4 @@
-# expensetracker
+# Spend Less
 
 A new Flutter project.
 
