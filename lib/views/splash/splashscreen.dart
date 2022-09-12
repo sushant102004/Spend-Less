@@ -1,18 +1,42 @@
+import 'dart:async';
 import 'package:expensetracker/constants.dart';
-import 'package:expensetracker/controllers/authcontroller.dart';
+import 'package:expensetracker/views/authentication/login.dart';
+import 'package:expensetracker/views/dashboard/dashboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class Login extends StatelessWidget {
-  Login({Key? key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
 
+class _SplashScreenState extends State<SplashScreen> {
   final constants = Get.put(Constants());
-  final authController = Get.put(AuthController());
+
+  setScreen() async {
+    Timer(const Duration(seconds: 3), () async {
+      final userStatus = FirebaseAuth.instance.currentUser;
+      if (userStatus == null) {
+        Get.off(Login());
+      } else {
+        Get.off(Dashboard());
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setScreen();
+  }
 
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: constants.primaryColor,
       body: Column(
@@ -52,19 +76,24 @@ class Login extends StatelessWidget {
                 SizedBox(
                   height: _size.height / 10,
                 ),
-                Text(
-                  'Manage Your',
-                  style: TextStyle(
-                      color: Colors.grey.shade800,
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Finance',
-                  style: TextStyle(
-                      color: constants.primaryColor,
-                      fontSize: 45,
-                      fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Spend ',
+                      style: TextStyle(
+                          color: Colors.grey.shade800,
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Less',
+                      style: TextStyle(
+                          color: constants.primaryColor,
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -78,27 +107,9 @@ class Login extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: _size.height / 8),
-                  child: InkWell(
-                    onTap: () {
-                      authController.login();
-                    },
-                    child: Container(
-                      width: _size.width / 2,
-                      height: _size.height / 15,
-                      decoration: BoxDecoration(
-                          color: constants.primaryColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Center(
-                        child: Text(
-                          'Get Started',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
+                  padding: EdgeInsets.only(top: _size.height / 6),
+                  child: CircularProgressIndicator(
+                    color: constants.primaryColor,
                   ),
                 )
               ],

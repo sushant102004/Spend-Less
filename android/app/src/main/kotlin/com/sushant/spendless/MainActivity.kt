@@ -1,4 +1,4 @@
-package com.sushant.expensetracker.expensetracker
+package com.sushant.spendless
 
 import io.flutter.embedding.android.FlutterActivity
 

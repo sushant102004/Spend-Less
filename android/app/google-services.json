@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "76840675232",
+    "project_id": "spend-less-2c352",
+    "storage_bucket": "spend-less-2c352.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76840675232:android:1620d49362a0beb32366c5",
+        "android_client_info": {
+          "package_name": "com.sushant.spendless"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76840675232-ce7ujftf37ted038u3ngcouak3fb0j7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqD48-8xfKeTVs2_MaVhVht0TFmyGftUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76840675232-ce7ujftf37ted038u3ngcouak3fb0j7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
