@@ -81,7 +81,7 @@ class Login extends StatelessWidget {
                   padding: EdgeInsets.only(top: _size.height / 8),
                   child: InkWell(
                     onTap: () {
-                      authController.login();
+                      authController.login(context);
                     },
                     child: Container(
                       width: _size.width / 2,
