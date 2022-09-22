@@ -33,7 +33,50 @@ class _DashboardState extends State<Dashboard> {
               onPressed: () {}, icon: const Icon(Icons.notifications_outlined))
         ],
       ),
-      drawer: const Drawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: constants.primaryColor,
+        child: const Icon(Icons.add),
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Container(
+              height: _size.height / 3,
+              width: double.infinity,
+              color: constants.primaryColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.grey.shade100,
+                      radius: 45,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Hello 👋 Sushant Dhiman",
+                      style: TextStyle(
+                          color: constants.textColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "sushant.dhiman9812@gmail.com",
+                      style: TextStyle(
+                        color: constants.textColor,
+                        fontSize: 16,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
       body: Padding(
         padding: EdgeInsets.only(
             left: _size.width / 30,
@@ -186,6 +229,64 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                 ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              width: _size.width / 1.1,
+              height: _size.height / 10,
+              decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      offset: const Offset(0.0, 0.0),
+                      blurRadius: 5.0,
+                      spreadRadius: 2.0,
+                    )
+                  ]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: _size.width / 15,
+                        vertical: _size.width / 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Food',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade700),
+                        ),
+                        Text(
+                          '22 September 2022',
+                          style: TextStyle(
+                              fontSize: 15, color: Colors.grey.shade600),
+                        ),
+                        Text(
+                          '06:00 AM',
+                          style: TextStyle(
+                              fontSize: 15, color: Colors.grey.shade600),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: _size.width / 15),
+                    child: Text(
+                      '-₹400',
+                      style: TextStyle(
+                          color: Colors.red.shade400,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22),
+                    ),
+                  )
+                ],
               ),
             )
           ],
