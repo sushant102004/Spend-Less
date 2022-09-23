@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       getPages: [
         GetPage(name: '/login', page: () => Login()),
         GetPage(name: '/dashboard', page: () => const Dashboard()),
-        GetPage(name: '/splash', page: () => const SplashScreen())
+        GetPage(name: '/splash', page: () => const SplashScreen()),
       ],
     );
   }
