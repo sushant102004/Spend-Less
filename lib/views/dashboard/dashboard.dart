@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensetracker/constants.dart';
+import 'package:expensetracker/controllers/authcontroller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +14,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final constants = Get.put(Constants());
+  final authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
@@ -30,7 +34,11 @@ class _DashboardState extends State<Dashboard> {
         ),
         actions: [
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.notifications_outlined))
+              onPressed: () {
+                // authController.signOut();
+                print(authController.getCurrentUserUid());
+              },
+              icon: const Icon(Icons.logout_rounded))
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -170,79 +178,32 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             children: [
               // Card
-              Container(
-                height: _size.height / 4.7,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: constants.primaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade500,
-                        offset: const Offset(0.0, 0.0),
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0,
-                      )
-                    ]),
-                child: Padding(
-                  padding: EdgeInsets.all(_size.width / 25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'This Month',
-                        style: TextStyle(
-                            color: constants.textColor,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 20),
+              StreamBuilder<DocumentSnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid.toString())
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    DocumentSnapshot? doc = snapshot.data;
+                    return MoneyCard(
+                      size: _size,
+                      constants: constants,
+                      balanceIn: doc!['balanceIn'],
+                      balanceOut: doc['balanceOut'],
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: constants.primaryColor,
                       ),
-                      SizedBox(
-                        height: _size.height / 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Balance In ↓',
-                            style: TextStyle(
-                                color: constants.textColor,
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 21),
-                          ),
-                          Text(
-                            'Balance Out ↑',
-                            style: TextStyle(
-                                color: constants.textColor,
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 21),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: _size.height / 80,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '₹ 13900',
-                            style: TextStyle(
-                                color: constants.textColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 23),
-                          ),
-                          Text(
-                            '₹ 76400',
-                            style: TextStyle(
-                                color: constants.textColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 23),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                  return const Center(
+                    child: Text('Error Fetching Data'),
+                  );
+                },
               ),
 
               // Selector
@@ -251,65 +212,209 @@ class _DashboardState extends State<Dashboard> {
                 child: TransactionToogle(size: _size, constants: constants),
               ),
               const SizedBox(height: 20),
-              Container(
-                width: _size.width / 1.1,
-                height: _size.height / 10,
-                decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade300,
-                        offset: const Offset(0.0, 0.0),
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0,
-                      )
-                    ]),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: _size.width / 15,
-                          vertical: _size.width / 30),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Food',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade700),
-                          ),
-                          Text(
-                            '22 September 2022',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey.shade600),
-                          ),
-                          Text(
-                            '06:00 AM',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey.shade600),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: _size.width / 15),
-                      child: Text(
-                        '-₹400',
-                        style: TextStyle(
-                            color: Colors.red.shade400,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22),
-                      ),
-                    )
-                  ],
-                ),
-              )
+
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('transactions')
+                    .doc('Iiz60pNr3OWywoA6n3dqTRmKBkD3')
+                    .collection('expense')
+                    .snapshots(),
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: ((context, index) {
+                        DocumentSnapshot doc = snapshot.data!.docs[index];
+                        return ExpenseTransaction(
+                            size: _size,
+                            transactionAmount: doc['amount'],
+                            transactionDate: doc['date'],
+                            transactionTime: doc['time'],
+                            transactionType: doc['type']);
+                      }),
+                    );
+                  }
+                  return Center(
+                      child: CircularProgressIndicator(
+                          color: constants.primaryColor));
+                }),
+              ),
+
+              // ExpenseTransaction(size: _size)
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ExpenseTransaction extends StatelessWidget {
+  const ExpenseTransaction(
+      {Key? key,
+      required Size size,
+      required this.transactionAmount,
+      required this.transactionDate,
+      required this.transactionTime,
+      required this.transactionType})
+      : _size = size,
+        super(key: key);
+
+  final Size _size;
+  final String transactionType;
+  final String transactionDate;
+  final String transactionTime;
+  final int transactionAmount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: _size.width / 1.1,
+      height: _size.height / 10,
+      decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              offset: const Offset(0.0, 0.0),
+              blurRadius: 5.0,
+              spreadRadius: 2.0,
+            )
+          ]),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: _size.width / 15, vertical: _size.width / 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  transactionType,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade700),
+                ),
+                Text(
+                  transactionDate,
+                  style: TextStyle(fontSize: 15, color: Colors.grey.shade600),
+                ),
+                Text(
+                  transactionTime,
+                  style: TextStyle(fontSize: 15, color: Colors.grey.shade600),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: _size.width / 15),
+            child: Text(
+              '₹ -$transactionAmount',
+              style: TextStyle(
+                  color: Colors.red.shade400,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class MoneyCard extends StatelessWidget {
+  const MoneyCard(
+      {Key? key,
+      required Size size,
+      required this.constants,
+      required this.balanceIn,
+      required this.balanceOut})
+      : _size = size,
+        super(key: key);
+
+  final Size _size;
+  final Constants constants;
+  final int balanceIn;
+  final int balanceOut;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: _size.height / 4.7,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: constants.primaryColor,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade500,
+              offset: const Offset(0.0, 0.0),
+              blurRadius: 5.0,
+              spreadRadius: 2.0,
+            )
+          ]),
+      child: Padding(
+        padding: EdgeInsets.all(_size.width / 25),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'This Month',
+              style: TextStyle(
+                  color: constants.textColor,
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ),
+            SizedBox(
+              height: _size.height / 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Balance In ↓',
+                  style: TextStyle(
+                      color: constants.textColor,
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 21),
+                ),
+                Text(
+                  'Balance Out ↑',
+                  style: TextStyle(
+                      color: constants.textColor,
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 21),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: _size.height / 80,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '₹ $balanceIn',
+                  style: TextStyle(
+                      color: constants.textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23),
+                ),
+                Text(
+                  '₹ $balanceOut',
+                  style: TextStyle(
+                      color: constants.textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:expensetracker/model/usermodel.dart';
+import 'package:expensetracker/views/authentication/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,11 +29,13 @@ class AuthController extends GetxController {
         User? user = result.user;
         Get.toNamed('/dashboard');
 
-        // Save data to DB
+        // Save user details to DB
         firebaseFirestore.collection('users').doc(user?.uid).set({
           'name': user?.displayName,
           'email': user?.email,
           'uid': user?.uid,
+          'balanceIn': 0,
+          'balanceOut': 0
         });
         print('Data Saved');
       }
@@ -43,5 +46,17 @@ class AuthController extends GetxController {
 
   getCurrentUser() async {
     return firebaseAuth.currentUser;
+  }
+
+  getCurrentUserUid() async {
+    if (firebaseAuth.currentUser == null) {
+      return null;
+    }
+    return firebaseAuth.currentUser?.uid.toString();
+  }
+
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
+    Get.off(Login());
   }
 }
