@@ -211,38 +211,15 @@ class _DashboardState extends State<Dashboard> {
                 padding: EdgeInsets.only(top: _size.height / 30),
                 child: TransactionToogle(size: _size, constants: constants),
               ),
+
               const SizedBox(height: 20),
 
-              StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('transactions')
-                    .doc('Iiz60pNr3OWywoA6n3dqTRmKBkD3')
-                    .collection('expense')
-                    .snapshots(),
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: ((context, index) {
-                        DocumentSnapshot doc = snapshot.data!.docs[index];
-                        return ExpenseTransaction(
-                            size: _size,
-                            transactionAmount: doc['amount'],
-                            transactionDate: doc['date'],
-                            transactionTime: doc['time'],
-                            transactionType: doc['type']);
-                      }),
-                    );
-                  }
-                  return Center(
-                      child: CircularProgressIndicator(
-                          color: constants.primaryColor));
-                }),
-              ),
-
-              // ExpenseTransaction(size: _size)
+              ExpenseTransaction(
+                  size: _size,
+                  transactionAmount: 235,
+                  transactionDate: '12 September 2022',
+                  transactionTime: '1:05 PM',
+                  transactionType: 'Food')
             ],
           ),
         ),
