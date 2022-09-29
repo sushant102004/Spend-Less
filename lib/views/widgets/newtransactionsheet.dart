@@ -1,4 +1,5 @@
 import 'package:expensetracker/constants.dart';
+import 'package:expensetracker/views/widgets/custombutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,48 +46,91 @@ class NewTransactionSheet extends GetxController {
                     SizedBox(
                       height: Get.height / 50,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: Get.height / 30, right: Get.height / 30),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Amount',
-                                style: TextStyle(
-                                    color: Colors.grey.shade700,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: Get.height / 80,
-                          ),
-                          SizedBox(
-                            height: Get.height / 18,
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                  hintText: 'eg: 400',
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10)))),
-                            ),
-                          ),
-                          SizedBox(
-                            height: Get.height / 30,
-                          )
-                        ],
-                      ),
-                    )
+                    CustomInputField(
+                      title: 'Amount',
+                      hintText: 'eg: 400',
+                    ),
+                    CustomInputField(
+                      title: 'Date',
+                      hintText: 'eg: 26 September 2022',
+                    ),
+                    CustomInputField(
+                      title: 'Time',
+                      hintText: 'eg: 01:00 PM',
+                    ),
+                    CustomInputField(
+                      title: 'Type',
+                      hintText: 'eg: Food',
+                    ),
+                    SizedBox(
+                      height: Get.height / 40,
+                    ),
+                    CustomButton(
+                      onTap: () {},
+                      text: 'Add Transaction',
+                      height: Get.height / 16,
+                      width: Get.width / 2.5,
+                      fontSize: 16,
+                    ),
+                    SizedBox(
+                      height: Get.height / 40,
+                    ),
                   ],
                 ),
               ],
             ),
           );
         });
+  }
+}
+
+// ignore: must_be_immutable
+class CustomInputField extends StatelessWidget {
+  CustomInputField({
+    Key? key,
+    required this.hintText,
+    required this.title,
+  }) : super(key: key);
+
+  String title;
+  String hintText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: Get.height / 30, right: Get.height / 30),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: Get.height / 18,
+            child: TextFormField(
+              decoration: InputDecoration(
+                  hintText: hintText,
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          )
+        ],
+      ),
+    );
   }
 }
 

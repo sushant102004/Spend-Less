@@ -43,7 +43,7 @@ class _DashboardState extends State<Dashboard> {
           IconButton(
               onPressed: () {
                 transactionController.addTransaction(
-                    1050, '25 September 2022', '02:23 PM', 'Party');
+                    context, 1050, '25 September 2022', '02:23 PM', 'Party');
               },
               icon: const Icon(Icons.logout_rounded))
         ],
@@ -143,7 +143,7 @@ class _DashboardState extends State<Dashboard> {
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('transactions')
-                    .doc('Iiz60pNr3OWywoA6n3dqTRmKBkD3')
+                    .doc(FirebaseAuth.instance.currentUser?.uid.toString())
                     .collection('expense')
                     .snapshots(),
                 builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
