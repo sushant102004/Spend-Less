@@ -1,10 +1,16 @@
 import 'package:expensetracker/constants.dart';
+import 'package:expensetracker/controllers/transactioncontroller.dart';
 import 'package:expensetracker/views/widgets/custombutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NewTransactionSheet extends GetxController {
   final constants = Get.put(Constants());
+  final transactionController = Get.put(TransactionController());
+  TextEditingController amountController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
 
   showNewTransactionSheet(BuildContext context) {
     showModalBottomSheet(
@@ -49,24 +55,35 @@ class NewTransactionSheet extends GetxController {
                     CustomInputField(
                       title: 'Amount',
                       hintText: 'eg: 400',
+                      textController: amountController,
                     ),
                     CustomInputField(
                       title: 'Date',
                       hintText: 'eg: 26 September 2022',
+                      textController: dateController,
                     ),
                     CustomInputField(
                       title: 'Time',
                       hintText: 'eg: 01:00 PM',
+                      textController: timeController,
                     ),
                     CustomInputField(
                       title: 'Type',
                       hintText: 'eg: Food',
+                      textController: typeController,
                     ),
                     SizedBox(
                       height: Get.height / 40,
                     ),
                     CustomButton(
-                      onTap: () {},
+                      onTap: () {
+                        transactionController.addTransaction(
+                            context,
+                            int.parse(amountController.text),
+                            dateController.text,
+                            timeController.text,
+                            typeController.text);
+                      },
                       text: 'Add Transaction',
                       height: Get.height / 16,
                       width: Get.width / 2.5,
@@ -90,10 +107,12 @@ class CustomInputField extends StatelessWidget {
     Key? key,
     required this.hintText,
     required this.title,
+    required this.textController,
   }) : super(key: key);
 
   String title;
   String hintText;
+  TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +138,7 @@ class CustomInputField extends StatelessWidget {
           SizedBox(
             height: Get.height / 18,
             child: TextFormField(
+              controller: textController,
               decoration: InputDecoration(
                   hintText: hintText,
                   border: const OutlineInputBorder(

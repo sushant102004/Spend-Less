@@ -30,14 +30,19 @@ class AuthController extends GetxController {
         Get.toNamed('/dashboard');
 
         // Save user details to DB
-        firebaseFirestore.collection('users').doc(user?.uid).set({
-          'name': user?.displayName,
-          'email': user?.email,
-          'uid': user?.uid,
-          'balanceIn': 0,
-          'balanceOut': 0
-        });
-        print('Data Saved');
+        // ignore: unnecessary_null_comparison
+        if (firebaseFirestore.collection('users').doc(user?.uid) == null) {
+          firebaseFirestore.collection('users').doc(user?.uid).set({
+            'name': user?.displayName,
+            'email': user?.email,
+            'uid': user?.uid,
+            'balanceIn': 0,
+            'balanceOut': 0
+          });
+          print('Data Added');
+        } else {
+          print('Data Already Exists');
+        }
       }
     } catch (e) {
       print('Something Went Wrong');

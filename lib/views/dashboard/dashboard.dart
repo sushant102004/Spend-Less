@@ -40,12 +40,7 @@ class _DashboardState extends State<Dashboard> {
               fontSize: 24),
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                transactionController.addTransaction(
-                    context, 1050, '25 September 2022', '02:23 PM', 'Party');
-              },
-              icon: const Icon(Icons.logout_rounded))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.logout_rounded))
         ],
       ),
       floatingActionButton: FloatingActionButton(
