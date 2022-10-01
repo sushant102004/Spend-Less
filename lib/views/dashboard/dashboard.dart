@@ -40,6 +40,7 @@ class _DashboardState extends State<Dashboard> {
               fontWeight: FontWeight.bold,
               fontSize: 24),
         ),
+        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.logout_rounded))
         ],
