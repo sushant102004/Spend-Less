@@ -8,14 +8,11 @@ class TransactionController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   addBalanceIn(int balanceInAddAmount) async {
-    // late int currentBalanceIn;
-
     final document = await firestore
         .collection('users')
         .doc(firebaseAuth.currentUser?.uid)
         .get()
         .then((document) => {
-              // currentBalanceIn = document['balanceIn']
               firestore
                   .collection('users')
                   .doc(firebaseAuth.currentUser?.uid)
@@ -33,7 +30,6 @@ class TransactionController extends GetxController {
         .collection('expense')
         .add({'amount': amount, 'date': date, 'time': time, 'type': type});
 
-    // addBalanceIn();
     addBalanceIn(amount);
 
     Navigator.pop(context);

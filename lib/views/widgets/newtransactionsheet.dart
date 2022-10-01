@@ -44,11 +44,13 @@ class NewTransactionSheet extends GetxController {
                     SizedBox(
                       height: Get.height / 50,
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: TransactionToogle(
-                          size: Get.size, constants: constants),
-                    ),
+                    // Container(
+                    //   alignment: Alignment.center,
+                    //   child: TransactionToogle(
+                    //     size: Get.size,
+                    //     constants: constants,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: Get.height / 50,
                     ),
@@ -149,89 +151,6 @@ class CustomInputField extends StatelessWidget {
             height: 10,
           )
         ],
-      ),
-    );
-  }
-}
-
-class TransactionToogle extends StatelessWidget {
-  const TransactionToogle({
-    Key? key,
-    required Size size,
-    required this.constants,
-  })  : _size = size,
-        super(key: key);
-
-  final Size _size;
-  final Constants constants;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: _size.height / 20,
-      width: _size.width / 1.18,
-      decoration: BoxDecoration(
-          color: Colors.grey.shade400,
-          borderRadius: BorderRadius.circular(100)),
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: _size.width / 2.45,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                  color: constants.backgroundColor,
-                  borderRadius: BorderRadius.circular(100)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.arrow_circle_up,
-                    color: constants.primaryColor,
-                  ),
-                  SizedBox(
-                    width: _size.width / 40,
-                  ),
-                  Text(
-                    'Expense',
-                    style: TextStyle(
-                        color: constants.primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: _size.width / 2.45,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                  // color: constants.backgroundColor,
-                  borderRadius: BorderRadius.circular(100)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.arrow_circle_down,
-                    color: Colors.grey.shade600,
-                  ),
-                  SizedBox(
-                    width: _size.width / 40,
-                  ),
-                  Text(
-                    'Incoming',
-                    style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

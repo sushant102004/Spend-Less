@@ -38,7 +38,7 @@ class MoneyCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'This Month',
+              'Total Spendings',
               style: TextStyle(
                   color: constants.textColor,
                   // fontWeight: FontWeight.bold,
