@@ -51,45 +51,6 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: constants.primaryColor,
         child: const Icon(Icons.add),
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Container(
-              height: _size.height / 3,
-              width: double.infinity,
-              color: constants.primaryColor,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.grey.shade100,
-                      radius: 45,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Hello 👋 Sushant Dhiman",
-                      style: TextStyle(
-                          color: constants.textColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "sushant.dhiman9812@gmail.com",
-                      style: TextStyle(
-                        color: constants.textColor,
-                        fontSize: 16,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
