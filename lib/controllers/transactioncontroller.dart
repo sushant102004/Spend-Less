@@ -7,7 +7,7 @@ class TransactionController extends GetxController {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  addBalanceIn(int balanceInAddAmount) async {
+  addBalanceOut(int balanceOutAddAmount) async {
     final document = await firestore
         .collection('users')
         .doc(firebaseAuth.currentUser?.uid)
@@ -17,21 +17,19 @@ class TransactionController extends GetxController {
                   .collection('users')
                   .doc(firebaseAuth.currentUser?.uid)
                   .update({
-                'balanceOut': document['balanceOut'] + balanceInAddAmount,
+                'balanceOut': document['balanceOut'] + balanceOutAddAmount,
               })
             });
   }
 
-  addTransaction(BuildContext context, int amount, String date, String time,
-      String type) async {
+  addBalanceOutTransaction(BuildContext context, int amount, String date,
+      String time, String type) async {
     firestore
         .collection('transactions')
         .doc(firebaseAuth.currentUser?.uid.toString())
         .collection('expense')
         .add({'amount': amount, 'date': date, 'time': time, 'type': type});
-
-    addBalanceIn(amount);
-
+    addBalanceOut(amount);
     Navigator.pop(context);
   }
 }

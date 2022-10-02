@@ -3,6 +3,7 @@ import 'package:expensetracker/constants.dart';
 import 'package:expensetracker/controllers/authcontroller.dart';
 import 'package:expensetracker/controllers/transactioncontroller.dart';
 import 'package:expensetracker/views/widgets/expensetransactioncard.dart';
+import 'package:expensetracker/views/widgets/incomingtransactioncard.dart';
 import 'package:expensetracker/views/widgets/moneycard.dart';
 import 'package:expensetracker/views/widgets/newtransactionsheet.dart';
 import 'package:expensetracker/views/widgets/transactiontoggler.dart';
@@ -101,38 +102,78 @@ class _DashboardState extends State<Dashboard> {
 
               const SizedBox(height: 20),
 
-              Container(
-                width: double.infinity,
-                height: Get.height / 2.1,
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('transactions')
-                      .doc(FirebaseAuth.instance.currentUser?.uid.toString())
-                      .collection('expense')
-                      .snapshots(),
-                  builder: ((context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          final data = snapshot.data!.docs[index];
-                          return ExpenseTransactionCard(
-                              size: _size,
-                              transactionAmount: data['amount'],
-                              transactionDate: data['date'],
-                              transactionTime: data['time'],
-                              transactionType: data['type']);
-                        },
-                      );
-                    }
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }),
-                ),
-              ),
+              Obx(
+                () => currentPanel == 'Expense'
+                    // Expense Transaction Sheet
+                    ? Container(
+                        width: double.infinity,
+                        height: Get.height / 2.1,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('transactions')
+                              .doc(FirebaseAuth.instance.currentUser?.uid
+                                  .toString())
+                              .collection('expense')
+                              .snapshots(),
+                          builder: ((context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasData && snapshot.data != null) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  final data = snapshot.data!.docs[index];
+                                  return ExpenseTransactionCard(
+                                      size: _size,
+                                      transactionAmount: data['amount'],
+                                      transactionDate: data['date'],
+                                      transactionTime: data['time'],
+                                      transactionType: data['type']);
+                                },
+                              );
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }),
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        height: Get.height / 2.1,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('transactions')
+                              .doc(FirebaseAuth.instance.currentUser?.uid
+                                  .toString())
+                              .collection('incoming')
+                              .snapshots(),
+                          builder: ((context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasData && snapshot.data != null) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  final data = snapshot.data!.docs[index];
+                                  return IncomingTransactionCard(
+                                      size: _size,
+                                      transactionAmount: data['amount'],
+                                      transactionDate: data['date'],
+                                      transactionTime: data['time'],
+                                      transactionType: data['type']);
+                                },
+                              );
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }),
+                        ),
+                      ),
+              )
             ],
           ),
         ),

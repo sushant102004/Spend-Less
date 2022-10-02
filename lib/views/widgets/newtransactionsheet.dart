@@ -79,7 +79,7 @@ class NewTransactionSheet extends GetxController {
                     ),
                     CustomButton(
                       onTap: () {
-                        transactionController.addTransaction(
+                        transactionController.addBalanceOutTransaction(
                             context,
                             int.parse(amountController.text),
                             dateController.text,

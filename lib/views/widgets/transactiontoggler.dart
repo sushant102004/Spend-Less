@@ -1,7 +1,8 @@
 import 'package:expensetracker/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-String currentPanel = 'Expense';
+RxString currentPanel = 'Expense'.obs;
 
 class TransactionToogle extends StatefulWidget {
   TransactionToogle({
@@ -32,36 +33,44 @@ class _TransactionToogleState extends State<TransactionToogle> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: widget._size.width / 2.45,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                  color: widget.constants.backgroundColor,
-                  borderRadius: BorderRadius.circular(100)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.arrow_circle_up,
-                    color: widget.constants.primaryColor,
-                  ),
-                  SizedBox(
-                    width: widget._size.width / 40,
-                  ),
-                  Text(
-                    'Expense',
-                    style: TextStyle(
-                        color: widget.constants.primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
-                  )
-                ],
+            InkWell(
+              onTap: () {
+                setState(() {
+                  currentPanel.value = 'Expense';
+                  print(currentPanel);
+                });
+              },
+              child: Container(
+                width: widget._size.width / 2.45,
+                height: double.infinity,
+                decoration: BoxDecoration(
+                    color: widget.constants.backgroundColor,
+                    borderRadius: BorderRadius.circular(100)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.arrow_circle_up,
+                      color: widget.constants.primaryColor,
+                    ),
+                    SizedBox(
+                      width: widget._size.width / 40,
+                    ),
+                    Text(
+                      'Expense',
+                      style: TextStyle(
+                          color: widget.constants.primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    )
+                  ],
+                ),
               ),
             ),
             InkWell(
               onTap: () {
                 setState(() {
-                  currentPanel = 'Incoming';
+                  currentPanel.value = 'Incoming';
                   print(currentPanel);
                 });
               },
