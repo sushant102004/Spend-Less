@@ -44,14 +44,18 @@ class _TransactionToogleState extends State<TransactionToogle> {
                 width: widget._size.width / 2.45,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                    color: widget.constants.backgroundColor,
+                    color: currentPanel == 'Expense'
+                        ? widget.constants.backgroundColor
+                        : Colors.grey.shade400,
                     borderRadius: BorderRadius.circular(100)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.arrow_circle_up,
-                      color: widget.constants.primaryColor,
+                      color: currentPanel == 'Expense'
+                          ? widget.constants.primaryColor
+                          : Colors.grey.shade600,
                     ),
                     SizedBox(
                       width: widget._size.width / 40,
@@ -59,7 +63,9 @@ class _TransactionToogleState extends State<TransactionToogle> {
                     Text(
                       'Expense',
                       style: TextStyle(
-                          color: widget.constants.primaryColor,
+                          color: currentPanel == 'Expense'
+                              ? widget.constants.primaryColor
+                              : Colors.grey.shade600,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
                     )
@@ -78,14 +84,18 @@ class _TransactionToogleState extends State<TransactionToogle> {
                 width: widget._size.width / 2.45,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                    // color: constants.backgroundColor,
+                    color: currentPanel == 'Incoming'
+                        ? widget.constants.backgroundColor
+                        : Colors.grey.shade400,
                     borderRadius: BorderRadius.circular(100)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.arrow_circle_down,
-                      color: Colors.grey.shade600,
+                      color: currentPanel == 'Incoming'
+                          ? widget.constants.primaryColor
+                          : Colors.grey.shade600,
                     ),
                     SizedBox(
                       width: widget._size.width / 40,
@@ -93,7 +103,9 @@ class _TransactionToogleState extends State<TransactionToogle> {
                     Text(
                       'Incoming',
                       style: TextStyle(
-                          color: Colors.grey.shade600,
+                          color: currentPanel == 'Incoming'
+                              ? widget.constants.primaryColor
+                              : Colors.grey.shade600,
                           fontWeight: FontWeight.bold,
                           fontSize: 17),
                     )
