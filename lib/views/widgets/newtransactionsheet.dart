@@ -12,6 +12,54 @@ class NewTransactionSheet extends GetxController {
   TextEditingController timeController = TextEditingController();
   TextEditingController typeController = TextEditingController();
 
+  RxString transactionType = ''.obs;
+
+  newTransactionTypeSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        builder: (BuildContext context) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButton(
+                            onTap: () {
+                              transactionType.value = 'expense';
+                              showNewTransactionSheet(context);
+                            },
+                            text: 'Expense',
+                            fontSize: 18,
+                            height: Get.height / 18,
+                            width: Get.width / 2.5),
+                        SizedBox(
+                          width: Get.width / 10,
+                        ),
+                        CustomButton(
+                            onTap: () {
+                              transactionType.value = 'incoming';
+                              showNewTransactionSheet(context);
+                            },
+                            text: 'Incoming',
+                            fontSize: 18,
+                            height: Get.height / 18,
+                            width: Get.width / 2.5),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   showNewTransactionSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -79,12 +127,19 @@ class NewTransactionSheet extends GetxController {
                     ),
                     CustomButton(
                       onTap: () {
-                        transactionController.addBalanceOutTransaction(
-                            context,
-                            int.parse(amountController.text),
-                            dateController.text,
-                            timeController.text,
-                            typeController.text);
+                        transactionType == 'expense'
+                            ? transactionController.addBalanceOutTransaction(
+                                context,
+                                int.parse(amountController.text),
+                                dateController.text,
+                                timeController.text,
+                                typeController.text)
+                            : transactionController.addBalanceInTransaction(
+                                context,
+                                int.parse(amountController.text),
+                                dateController.text,
+                                timeController.text,
+                                typeController.text);
                       },
                       text: 'Add Transaction',
                       height: Get.height / 16,

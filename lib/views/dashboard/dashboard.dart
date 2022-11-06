@@ -48,7 +48,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          newTransactionSheetController.showNewTransactionSheet(context);
+          newTransactionSheetController.newTransactionTypeSheet(context);
         },
         backgroundColor: constants.primaryColor,
         child: const Icon(Icons.add),
