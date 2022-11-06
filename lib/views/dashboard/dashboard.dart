@@ -46,6 +46,17 @@ class _DashboardState extends State<Dashboard> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.logout_rounded))
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: constants.primaryColor,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.group_outlined), label: 'Groups'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), label: 'Settings'),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           newTransactionSheetController.newTransactionTypeSheet(context);
