@@ -30,6 +30,7 @@ class TransactionController extends GetxController {
         .collection('expense')
         .add({'amount': amount, 'date': date, 'time': time, 'type': type});
     updateBalanceOut(amount);
+
     Navigator.pop(context);
   }
 

@@ -41,9 +41,31 @@ class _DashboardState extends State<Dashboard> {
               fontWeight: FontWeight.bold,
               fontSize: 24),
         ),
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.logout_rounded))
+          IconButton(
+              onPressed: () async {
+                DateTime? newDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1990),
+                    lastDate: DateTime(2100));
+
+                if (newDate == null) {
+                  return;
+                } else {
+                  print("${newDate.day}-${newDate.month}-${newDate.year}");
+                }
+
+                // TimeOfDay? newTime = await showTimePicker(
+                //     context: context, initialTime: TimeOfDay.now());
+                // if (newTime == null) {
+                //   return;
+                // } else {
+                //   print("${newTime.hour}:${newTime.minute}");
+                // }
+              },
+              icon: const Icon(Icons.logout_rounded))
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

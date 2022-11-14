@@ -13,6 +13,7 @@ class NewTransactionSheet extends GetxController {
   TextEditingController typeController = TextEditingController();
 
   RxString transactionType = ''.obs;
+  RxString date = 'Select Date'.obs;
 
   newTransactionTypeSheet(BuildContext context) {
     showModalBottomSheet(
@@ -58,6 +59,21 @@ class NewTransactionSheet extends GetxController {
             ),
           );
         });
+  }
+
+  void dateControl(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1990),
+        lastDate: DateTime(2100));
+
+    if (pickedDate == null) {
+      return;
+    } else {
+      date.value = "${pickedDate.day}-${pickedDate.month}-${pickedDate.year}";
+      print(date.value);
+    }
   }
 
   showNewTransactionSheet(BuildContext context) {
@@ -108,22 +124,50 @@ class NewTransactionSheet extends GetxController {
                       textController: amountController,
                     ),
                     CustomInputField(
-                      title: 'Date',
-                      hintText: 'eg: 26 September 2022',
-                      textController: dateController,
-                    ),
-                    CustomInputField(
-                      title: 'Time',
-                      hintText: 'eg: 01:00 PM',
-                      textController: timeController,
-                    ),
-                    CustomInputField(
                       title: 'Type',
                       hintText: 'eg: Food',
                       textController: typeController,
                     ),
                     SizedBox(
                       height: Get.height / 40,
+                    ),
+
+                    Obx(
+                      () => Padding(
+                        padding: EdgeInsets.only(
+                            left: Get.height / 30, right: Get.height / 30),
+                        child: Container(
+                          width: double.infinity,
+                          height: Get.height / 20,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade500),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(width: 10),
+                              Text(
+                                "$date",
+                                style: TextStyle(color: Colors.grey.shade600),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.calendar_month,
+                                  color: constants.primaryColor,
+                                ),
+                                onPressed: () {
+                                  dateControl(context);
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 10,
                     ),
                     CustomButton(
                       onTap: () {
@@ -142,7 +186,7 @@ class NewTransactionSheet extends GetxController {
                                 typeController.text);
                       },
                       text: 'Add Transaction',
-                      height: Get.height / 16,
+                      height: Get.height / 18,
                       width: Get.width / 2.5,
                       fontSize: 16,
                     ),
