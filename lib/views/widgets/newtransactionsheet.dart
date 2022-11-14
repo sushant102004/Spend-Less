@@ -72,7 +72,6 @@ class NewTransactionSheet extends GetxController {
       return;
     } else {
       date.value = "${pickedDate.day}-${pickedDate.month}-${pickedDate.year}";
-      print(date.value);
     }
   }
 
@@ -105,8 +104,8 @@ class NewTransactionSheet extends GetxController {
                 ),
                 Column(
                   children: [
-                    SizedBox(
-                      height: Get.height / 50,
+                    const SizedBox(
+                      height: 10,
                     ),
                     // Container(
                     //   alignment: Alignment.center,
@@ -115,23 +114,45 @@ class NewTransactionSheet extends GetxController {
                     //     constants: constants,
                     //   ),
                     // ),
-                    SizedBox(
-                      height: Get.height / 50,
+                    const SizedBox(
+                      height: 10,
                     ),
                     CustomInputField(
                       title: 'Amount',
                       hintText: 'eg: 400',
                       textController: amountController,
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     CustomInputField(
                       title: 'Type',
                       hintText: 'eg: Food',
                       textController: typeController,
                     ),
-                    SizedBox(
-                      height: Get.height / 40,
+                    const SizedBox(
+                      height: 10,
                     ),
 
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: Get.height / 30, right: Get.height / 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Date",
+                            style: TextStyle(
+                                color: Colors.grey.shade700,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Obx(
                       () => Padding(
                         padding: EdgeInsets.only(
@@ -146,10 +167,12 @@ class NewTransactionSheet extends GetxController {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             // crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(width: 10),
-                              Text(
-                                "$date",
-                                style: TextStyle(color: Colors.grey.shade600),
+                              Padding(
+                                padding: EdgeInsets.only(left: Get.width / 30),
+                                child: Text(
+                                  "$date",
+                                  style: TextStyle(color: Colors.grey.shade600),
+                                ),
                               ),
                               IconButton(
                                 icon: Icon(
