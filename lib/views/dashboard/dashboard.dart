@@ -44,19 +44,7 @@ class _DashboardState extends State<Dashboard> {
         leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         actions: [
           IconButton(
-              onPressed: () async {
-                DateTime? newDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1990),
-                    lastDate: DateTime(2100));
-
-                if (newDate == null) {
-                  return;
-                } else {
-                  print("${newDate.day}-${newDate.month}-${newDate.year}");
-                }
-
+              onPressed: () {
                 // TimeOfDay? newTime = await showTimePicker(
                 //     context: context, initialTime: TimeOfDay.now());
                 // if (newTime == null) {
