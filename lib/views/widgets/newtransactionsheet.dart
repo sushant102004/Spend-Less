@@ -85,6 +85,8 @@ class NewTransactionSheet extends GetxController {
     } else {
       if (newTime.hour == 12 || newTime.hour > 12) {
         time.value = "${newTime.hour} : ${newTime.minute} PM";
+      } else if (newTime.hour == 12 || newTime.hour > 12) {
+        time.value = "${newTime.hour - 12} : ${newTime.minute} PM";
       } else {
         time.value = "${newTime.hour} : ${newTime.minute} AM";
       }
