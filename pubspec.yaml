@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.1
+  intl: ^0.17.0
   kf_drawer: ^1.2.1
 
 dev_dependencies:

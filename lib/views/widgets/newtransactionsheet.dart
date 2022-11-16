@@ -3,6 +3,7 @@ import 'package:expensetracker/controllers/transactioncontroller.dart';
 import 'package:expensetracker/views/widgets/custombutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class NewTransactionSheet extends GetxController {
   final constants = Get.put(Constants());
@@ -70,8 +71,9 @@ class NewTransactionSheet extends GetxController {
     if (pickedDate == null) {
       return;
     } else {
-      date.value =
-          "${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}";
+      // date.value =
+      // "${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}";
+      date.value = DateFormat('dd-MMMM-yyyy').format(pickedDate);
     }
   }
 
