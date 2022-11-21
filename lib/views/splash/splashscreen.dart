@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:expensetracker/constants.dart';
 import 'package:expensetracker/views/authentication/login.dart';
-import 'package:expensetracker/views/dashboard/dashboard.dart';
+import 'package:expensetracker/views/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (userStatus == null) {
         Get.off(Login());
       } else {
-        Get.off(Dashboard());
+        Get.off(const Home());
       }
     });
   }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensetracker/constants.dart';
 import 'package:expensetracker/controllers/authcontroller.dart';
 import 'package:expensetracker/controllers/transactioncontroller.dart';
+import 'package:expensetracker/views/groups/groups.dart';
 import 'package:expensetracker/views/widgets/expensetransactioncard.dart';
 import 'package:expensetracker/views/widgets/incomingtransactioncard.dart';
 import 'package:expensetracker/views/widgets/moneycard.dart';
@@ -29,44 +30,6 @@ class _DashboardState extends State<Dashboard> {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: constants.backgroundColor,
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        centerTitle: true,
-        backgroundColor: constants.backgroundColor,
-        elevation: 0,
-        title: Text(
-          'Spend Less',
-          style: TextStyle(
-              color: constants.primaryColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 24),
-        ),
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-        actions: [
-          IconButton(
-              onPressed: () {
-                // TimeOfDay? newTime = await showTimePicker(
-                //     context: context, initialTime: TimeOfDay.now());
-                // if (newTime == null) {
-                //   return;
-                // } else {
-                //   print("${newTime.hour}:${newTime.minute}");
-                // }
-              },
-              icon: const Icon(Icons.logout_rounded))
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: constants.primaryColor,
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.group_outlined), label: 'Groups'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined), label: 'Settings'),
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           newTransactionSheetController.newTransactionTypeSheet(context);
