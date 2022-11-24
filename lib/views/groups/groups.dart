@@ -1,4 +1,5 @@
 import 'package:expensetracker/constants.dart';
+import 'package:expensetracker/views/widgets/moneycard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,10 +15,24 @@ class _GroupsState extends State<Groups> {
   bool hasGroupCreated = true;
   @override
   Widget build(BuildContext context) {
+    final _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: constants.backgroundColor,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (builder) {
+                return Wrap(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: Get.height / 20,
+                    )
+                  ],
+                );
+              });
+        },
         backgroundColor: constants.primaryColor,
         child: Icon(
           Icons.group_add,
@@ -45,7 +60,7 @@ class _GroupsState extends State<Groups> {
                         ]),
                     child: ListTile(
                       title: Text(
-                        'Group Title',
+                        'Goa Trip',
                         style: TextStyle(
                             color: Colors.grey.shade800,
                             fontWeight: FontWeight.bold,
@@ -53,6 +68,10 @@ class _GroupsState extends State<Groups> {
                       ),
                       leading: CircleAvatar(
                         radius: 30,
+                        // child: Image.asset(
+                        //   "assets/images/GoaTrip.jpg",
+                        //   fit: BoxFit.cover,
+                        // ),
                         backgroundColor: constants.primaryColor,
                       ),
                       trailing: IconButton(

@@ -11,6 +11,7 @@ import 'package:expensetracker/views/widgets/transactiontoggler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -24,6 +25,16 @@ class _DashboardState extends State<Dashboard> {
   final authController = Get.put(AuthController());
   final transactionController = Get.put(TransactionController());
   final newTransactionSheetController = Get.put(NewTransactionSheet());
+
+  DateTime date = DateTime.now();
+  RxString monthYear = ''.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    monthYear.value =
+        '${DateFormat('MMMM').format(date)}-${DateFormat('yyyy').format(date)}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +109,7 @@ class _DashboardState extends State<Dashboard> {
                               .doc(FirebaseAuth.instance.currentUser?.uid
                                   .toString())
                               .collection('expense')
+                              .where('monthYear', isEqualTo: '${monthYear}')
                               .snapshots(),
                           builder: ((context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {

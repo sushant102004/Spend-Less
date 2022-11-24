@@ -13,6 +13,9 @@ class NewTransactionSheet extends GetxController {
 
   RxString transactionType = ''.obs;
   RxString date = 'Select Date'.obs;
+  RxString month = ''.obs;
+  RxString year = ''.obs;
+  RxString monthYear = ''.obs;
   RxString time = 'Select Time'.obs;
 
   newTransactionTypeSheet(BuildContext context) {
@@ -69,10 +72,15 @@ class NewTransactionSheet extends GetxController {
         lastDate: DateTime(2100));
 
     if (pickedDate == null) {
-      return;
+      return null;
     } else {
       // date.value =
       // "${pickedDate.day} - ${pickedDate.month} - ${pickedDate.year}";
+
+      month.value = DateFormat('MMMM').format(pickedDate);
+      year.value = DateFormat('yyyy').format(pickedDate);
+      monthYear.value = '${month.value}-${year.value}';
+
       date.value = DateFormat('dd-MMMM-yyyy').format(pickedDate);
     }
   }
@@ -281,12 +289,14 @@ class NewTransactionSheet extends GetxController {
                                 context,
                                 int.parse(amountController.text),
                                 date.value,
+                                monthYear.value,
                                 time.value,
                                 typeController.text)
                             : transactionController.addBalanceInTransaction(
                                 context,
                                 int.parse(amountController.text),
                                 date.value,
+                                monthYear.value,
                                 time.value,
                                 typeController.text);
                       },

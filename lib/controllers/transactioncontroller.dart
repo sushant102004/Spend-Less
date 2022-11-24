@@ -23,12 +23,18 @@ class TransactionController extends GetxController {
   }
 
   addBalanceOutTransaction(BuildContext context, int amount, String date,
-      String time, String type) async {
+      String monthYear, String time, String type) async {
     firestore
         .collection('transactions')
         .doc(firebaseAuth.currentUser?.uid.toString())
         .collection('expense')
-        .add({'amount': amount, 'date': date, 'time': time, 'type': type});
+        .add({
+      'amount': amount,
+      'date': date,
+      'monthYear': monthYear,
+      'time': time,
+      'type': type
+    });
     updateBalanceOut(amount);
 
     Navigator.pop(context);
@@ -50,12 +56,18 @@ class TransactionController extends GetxController {
   }
 
   addBalanceInTransaction(BuildContext context, int amount, String date,
-      String time, String type) async {
+      String monthYear, String time, String type) async {
     firestore
         .collection('transactions')
         .doc(firebaseAuth.currentUser?.uid.toString())
         .collection('incoming')
-        .add({'amount': amount, 'date': date, 'time': time, 'type': type});
+        .add({
+      'amount': amount,
+      'date': date,
+      'monthYear': monthYear,
+      'time': time,
+      'type': type
+    });
     updateBalanceIn(amount);
     Navigator.pop(context);
   }
